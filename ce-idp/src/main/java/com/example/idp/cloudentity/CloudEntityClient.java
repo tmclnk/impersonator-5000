@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.time.Duration;
 
 @Component
 @Slf4j
@@ -48,7 +49,8 @@ public class CloudEntityClient {
                 .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(String.class).map(Exception::new))
                 .bodyToMono(AcceptResponse.class)
                 .map(AcceptResponse::getRedirectTo)
-                .map(URI::create);
+                .map(URI::create)
+                .delayElement(Duration.ofSeconds(command.getDelaySeconds()));
     }
 
 
@@ -63,6 +65,9 @@ public class CloudEntityClient {
             log.info("Placing {}='{}'", key, value);
             authenticationContext.put(key, value);
         }
+
+        // "name" is what gets shown on the consent screen if using the "." mapping
+        authenticationContext.put("name", loginCommand.getUsername().replaceAll("-", " "));
     }
 
 }

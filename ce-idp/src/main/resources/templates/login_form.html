@@ -1,3 +1,5 @@
+<h1>Login</h1>
+
 <form th:action="@{/login}" th:object="${loginCommand}" method="post">
     <table>
         <tr>
@@ -16,7 +18,22 @@
             <td>login_state</td>
             <td><input type="text" th:field="*{loginState}"/></td>
         </tr>
+        <tr>
+            <td>Login Delay Seconds</td>
+            <td>
+                <select id="delaySeconds" name="delaySeconds">
+                    <option th:each="i : ${#numbers.sequence(0, 10)}" th:value="${i}" th:text="${i}"
+                            th:selected="${i==5}"></option>
+                </select>
+            </td>
+            <!--            <td><input type="" th:field="*{loginState}"/></td>-->
+        </tr>
     </table>
 
     <input type="submit"/>
 </form>
+
+<ul>
+    <li>Any username will work; a random one has been prepopulated for convenience.</li>
+    <li>Any password will work.</li>
+</ul>

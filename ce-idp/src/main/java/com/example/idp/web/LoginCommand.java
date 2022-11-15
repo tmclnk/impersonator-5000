@@ -13,4 +13,5 @@ public class LoginCommand {
     private String password;
     private String loginState;
     private String loginId;
+    private int delaySeconds;
 }
